@@ -73,18 +73,19 @@ void loop()
     Serial.println(F("Failed to read DHT11!"));
     return;
   }
-  //print room temperature to LCD
+  //print room temperature to LCD and serial monitor
   lcd.print(F("t(out):"));
   lcd.print(t);
   Serial.print(t);
   Serial.print(", ");
 
   if (airSensor.dataAvailable())
+    //create variables for CO2 sensor data and retrieve values
   { float tin = airSensor.getTemperature();
     float co2 = airSensor.getCO2();
     float h = airSensor.getHumidity();
 
-
+    //print data to LCD and serial monitor
     lcd.print(" t(in):");
     lcd.print(tin, 1);
     Serial.print(tin, 1);
@@ -106,18 +107,16 @@ void loop()
     delay(1200);
 
     for (int positionCounter = 0; positionCounter < 16; positionCounter++) {
-    // scroll one position left:
+      //scroll to the left to see all data on LCD
       lcd.scrollDisplayLeft();
       delay(300);
     }
-
-    //Serial.println();
   }
   else
     Serial.println("Waiting for new data");
 
   
-
+  //wait before retriving next data set, and then clear screen to give time to read
   delay(1000);
   lcd.clear();
 }
